@@ -43,10 +43,8 @@ public class SvgFilesProcessor {
 		this.prefix = prefix;
 		this.extention = extention;
 		this.extentionSuffix = extentionSuffix;
-
-		System.out.println("this.sourceSvgPath " + this.sourceSvgPath);
-		System.out.println("this.destinationVectorPath " + this.destinationVectorPath);
-
+		System.out.println("Source path:" + this.sourceSvgPath);
+		System.out.println("Destination path: " + this.destinationVectorPath);
 	}
 	
 	public void process(){
