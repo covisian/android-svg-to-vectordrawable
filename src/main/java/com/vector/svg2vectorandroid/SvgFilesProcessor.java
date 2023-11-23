@@ -2,6 +2,7 @@ package com.vector.svg2vectorandroid;
 
 import com.android.ide.common.vectordrawable.Svg2Vector;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,13 +25,15 @@ public class SvgFilesProcessor {
 	private String prefix;
 	private String extention;
 	private String extentionSuffix;
+
+	private static String outfolderName = "ProcessedSVG";
 	
 	public SvgFilesProcessor(String sourceSvgDirectory) {
-		this(sourceSvgDirectory, sourceSvgDirectory+"/ProcessedSVG", "ic_", "xml", "");
+		this(sourceSvgDirectory, sourceSvgDirectory + "/" + outfolderName, "", "xml", "");
 	}
 	
 	public SvgFilesProcessor(String sourceSvgDirectory, String destinationVectorDirectory) {
-		this(sourceSvgDirectory, destinationVectorDirectory,  "ic_", "xml", "");
+		this(sourceSvgDirectory, (destinationVectorDirectory != null ? destinationVectorDirectory : sourceSvgDirectory + "/" + outfolderName),  "", "xml", "");
 	}
 
 	public SvgFilesProcessor(String sourceSvgDirectory, String destinationVectorDirectory,  String prefix, String extention,
@@ -40,6 +43,10 @@ public class SvgFilesProcessor {
 		this.prefix = prefix;
 		this.extention = extention;
 		this.extentionSuffix = extentionSuffix;
+
+		System.out.println("this.sourceSvgPath " + this.sourceSvgPath);
+		System.out.println("this.destinationVectorPath " + this.destinationVectorPath);
+
 	}
 	
 	public void process(){
@@ -63,11 +70,13 @@ public class SvgFilesProcessor {
 						
 						CopyOption[] opt = new CopyOption[]{COPY_ATTRIBUTES, REPLACE_EXISTING};
 						Path newDirectory = destinationVectorPath.resolve(sourceSvgPath.relativize(dir));
+
 						try{
 							Files.copy(dir, newDirectory,opt);
 						} catch(FileAlreadyExistsException ex){
 							System.out.println("FileAlreadyExistsException "+ex.toString());
 						} catch(IOException x){
+							System.out.println("IOException "+x.toString());
 							return FileVisitResult.SKIP_SUBTREE;
 						}
 						return CONTINUE;

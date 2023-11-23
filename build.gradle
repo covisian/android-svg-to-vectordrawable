@@ -1,5 +1,4 @@
 group 'geekyappz'
-version '1.1.1'
 
 apply plugin: 'java'
 
@@ -11,8 +10,7 @@ repositories {
 //create a single Jar with all dependencies
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'Svg2VectorAndroid',
-                'Implementation-Version': version,
+        attributes 'Implementation-Title': 'svg2vector',
                 'Main-Class': 'com.vector.svg2vectorandroid.Runner'
     }
     baseName = project.name
