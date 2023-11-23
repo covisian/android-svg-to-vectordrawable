@@ -1,6 +1,6 @@
 package com.vector.svg2vectorandroid;
 
-import com.android.ide.common.vectordrawable.Svg2Vector;
+import com.doctorplan.svg2vector.Svg2Vector;
 
 import java.io.Console;
 import java.io.File;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.EnumSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
@@ -27,7 +29,8 @@ public class SvgFilesProcessor {
 	private String extentionSuffix;
 
 	private static String outfolderName = "ProcessedSVG";
-	
+	static Logger logger = Logger.getLogger(Svg2Vector.class.getName());
+
 	public SvgFilesProcessor(String sourceSvgDirectory) {
 		this(sourceSvgDirectory, sourceSvgDirectory + "/" + outfolderName, "", "xml", "");
 	}
@@ -45,6 +48,8 @@ public class SvgFilesProcessor {
 		this.extentionSuffix = extentionSuffix;
 		System.out.println("Source path:" + this.sourceSvgPath);
 		System.out.println("Destination path: " + this.destinationVectorPath);
+
+		logger.setLevel(Level.FINE);
 	}
 	
 	public void process(){
@@ -102,7 +107,8 @@ public class SvgFilesProcessor {
 		}
 		
 	}
-	
+
+
 	private void convertToVector(Path source, Path target) throws IOException{
 		// convert only if it is .svg
 		if(source.getFileName().toString().endsWith(".svg")){

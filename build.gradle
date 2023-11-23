@@ -1,10 +1,14 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+}
 group 'geekyappz'
-
-apply plugin: 'java'
 
 repositories {
     maven { url 'https://maven.google.com' }
     mavenCentral()
+    google()
 }
 
 //create a single Jar with all dependencies
@@ -13,16 +17,17 @@ task fatJar(type: Jar) {
         attributes 'Implementation-Title': 'svg2vector',
                 'Main-Class': 'com.vector.svg2vectorandroid.Runner'
     }
-    baseName = project.name
-    doFirst {
-        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+
+    exclude 'NOTICE', 'META-INF/**', 'META-INF/*.SF','META-INF/*.DSA'
     with jar
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile 'com.android.tools:sdk-common:26.1.0'
-    compile 'com.android.tools:common:26.1.0'
+    implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.android.tools:common:30.1.2")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
